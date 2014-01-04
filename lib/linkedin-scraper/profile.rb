@@ -233,11 +233,14 @@ module Linkedin
     end
 
     def http_client
-      Mechanize.new do |agent|
-        agent.user_agent_alias = USER_AGENTS.sample
-        agent.max_history = 0
+      unless @http_client
+        @http_client = Mechanize.new do |agent|
+          #agent.user_agent_alias = USER_AGENTS.sample
+          agent.user_agent_alias = 'Windows IE 6' # NOTE: without this some element are missing from pages...
+          agent.max_history = 0
+        end
       end
+      @http_client
     end
-
   end
 end

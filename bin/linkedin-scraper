@@ -1,5 +1,10 @@
 #!/usr/bin/env ruby
 
 require_relative '../lib/linkedin-scraper'
-profile = Linkedin::Profile.new(ARGV[0])
-puts profile.to_json
+if ARGV[0] == '-a'
+  profile = Linkedin::AuthenticatedProfile.new(ARGV[1], ARGV[2])
+else
+  profile = Linkedin::Profile.new(ARGV[0])
+end
+#puts profile.to_json # FIXME:
+puts profile.connections
