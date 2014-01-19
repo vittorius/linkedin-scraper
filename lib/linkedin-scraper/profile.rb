@@ -222,6 +222,7 @@ module Linkedin
         result = {:linkedin_company_url => "#{link}"}
       else
         result = {:linkedin_company_url => "http://www.linkedin.com#{link}"}
+      end
       page = http_client.get(result[:linkedin_company_url])
 
       result[:url] = page.at('.basic-info/div/dl/dd/a').text if page.at('.basic-info/div/dl/dd/a')
