@@ -191,7 +191,6 @@ module Linkedin
       companies = []
       if @page.search(".position.experience.vevent.vcard.summary-#{type}").first
         @page.search(".position.experience.vevent.vcard.summary-#{type}").each do |node|
-
           company               = {}
           company[:title]       = node.at('h3').text.gsub(/\s+|\n/, ' ').strip if node.at('h3')
           company[:company]     = node.at('h4').text.gsub(/\s+|\n/, ' ').strip if node.at('h4')
@@ -204,9 +203,12 @@ module Linkedin
           company[:end_date] = parse_date(end_date) rescue nil
 
           company_link = node.at('h4/strong/a')['href'] if node.at('h4/strong/a')
+          unless company_link.nil?
+            result = get_company_details(company_link)
+            company.merge!(result)
+          end
 
-          result = get_company_details(company_link)
-          companies << company.merge!(result)
+          companies << company
         end
       end
       companies
